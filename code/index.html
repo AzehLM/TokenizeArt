@@ -44,15 +44,11 @@
 			transition: opacity 1.5s ease;
 		}
 
-		.video-bg video.hidden {
-			opacity: 0;
-		}
-
 		.video-bg::after {
 			content: "";
 			position: absolute;
 			inset: 0;
-			background: rgba(0, 0, 0, 0.55);
+			background: rgba(0, 0, 0, 0.40);
 		}
 
 		main {
@@ -248,8 +244,7 @@
 
 <body>
 	<div class="video-bg">
-		<video id="vidA" src="assets/bg.mp4" muted playsinline></video>
-		<video id="vidB" src="assets/bg.mp4" muted playsinline class="hidden"></video>
+		<video src="assets/bg.mp4" autoplay muted loop playsinline></video>
 	</div>
 
 	<main>
@@ -284,5 +279,90 @@
 			<p>42SocietyGenArt · <a href="https://sepolia.etherscan.io/address/CONTRACT_ADDRESS" id="etherscanLink" target="_blank">View on Etherscan</a></p>
 		</footer>
 	</main>
+
+	<script>
+		const CONTRACT_ADDRESS = "0x_NFT_CONTRACT_ADDRESS"; // nft smart contract address
+		const FS42_ADDRESS     = "0x_FS42_CONTRACT_ADDRESS"; // FS42 token smart contract address which is used to verify the minter has tokens
+
+		// ethers.js readable ABI (Application Binary Interface) that encodes the calls to smart contracts methods
+		const NFT_ABI = [
+			"function mint() external",
+			"function totalSupply() view returns (uint256)",
+			"function balanceOf(address) view returns (uint256)"
+		];
+
+		const FS42_ABI = [
+			"function balanceOf(address) view returns (uint256)"
+		];
+
+		const btn		= document.getElementById("mintBtn");
+		const status	= document.getElementById("walletStatus");
+		const feedback	= document.getElementById("feedback");
+
+		let provider, signer, nftContract;
+
+		async function connectWallet() {
+
+			if (!window.ethereum) {
+				showFeedback("Install MetaMask to continue", "error");
+				return ;
+			}
+
+			try {
+				provider = new ethers.BrowserProvider(window.ethereum); // open the Metamask extension to connect
+				signer = await provider.getSigner();
+				const addr = await signer.getAddress();
+
+				status.textContent = addr;
+				status.classList.add("connected");
+
+				btn.textContent	= "Mint";
+				btn.disabled	= false;
+				btn.onclick		= mint;
+			} catch (e) {
+				showFeedback("Connection refused", "error");
+			}
+		}
+
+		async function mint() {
+
+			btn.disabled = true;
+			showFeedback("Checking FS42 balance…", "");
+
+			try {
+				// Check FS42 ownership
+				const fs42	= new ethers.Contract(FS42_ADDRESS, FS42_ABI, provider);
+				const bal	= await fs42.balanceOf(await signer.getAddress()); // calls balanceOf on the FS42 token for the connected user that wants to mint
+
+				if (bal === 0n) {
+					showFeedback("You need FS42 tokens to mint", "error");
+					btn.disabled = false;
+					return;
+				}
+
+				showFeedback("Confirm transaction in MetaMask…", "");
+
+				nftContract = new ethers.Contract(CONTRACT_ADDRESS, NFT_ABI, signer);
+				const tx = await nftContract.mint();
+
+				showFeedback("Transaction sent — waiting…", "");
+				await tx.wait();
+
+				showFeedback("Minted successfully!", "success");
+			} catch (e) {
+				const msg = e.reason || e.message || "Transaction failed";
+				showFeedback(msg.substring(0, 80), "error");
+			}
+			btn.disabled = false;
+		}
+
+		function showFeedback(msg, type) {
+			feedback.textContent = msg;
+			feedback.className   = "feedback" + (type ? " " + type : "");
+		}
+
+		btn.onclick = connectWallet;
+		btn.disabled = false;
+	</script>
 </body>
 </html>
