@@ -256,22 +256,26 @@
 		<div class="cards">
 			<div class="card">
 				<h2>Mint</h2>
-				<p>Mint your unique generative art piece.<br>Requires 42Society (FS42) token ownership.</p>
-				<div id="walletStatus" class="wallet-status">
+				<p>Mint our art piece.<br>Requires 42Society (FS42) token ownership.</p>
+				<div id="walletStatus1" class="wallet-status">
 					Not connected
 				</div>
-				<button id="mintBtn" class="mint-btn" disabled>
+				<button id="mintBtn1" class="mint-btn" disabled>
 					Connect Wallet
 				</button>
-				<div id="feedback" class="feedback"></div>
+				<div id="feedback1" class="feedback"></div>
 			</div>
 
 			<div class="card">
-				<h2>Documentation</h2>
-				<p>How the collection works, smart contract details, and metadata specification.</p>
-				<a href="/documentation" class="cta">
-					<span>Open Docs</span>
-				</a>
+				<h2>Mint</h2>
+				<p>Mint a 42 svg art piece.<br>Does not require 42Society token.</p>
+				<div id="walletStatus2" class="wallet-status">
+					Not connected
+				</div>
+				<button id="mintBtn2" class="mint-btn" disabled>
+					Connect Wallet
+				</button>
+				<div id="feedback2" class="feedback"></div>
 			</div>
 		</div>
 
@@ -281,7 +285,8 @@
 	</main>
 
 	<script>
-		const CONTRACT_ADDRESS = "0x_NFT_CONTRACT_ADDRESS"; // nft smart contract address
+		const CONTRACT_ADDRESS = "0x_NFT_CONTRACT_ADDRESS"; // mandatory nft smart contract address
+		const ONCHAIN_CONTRACT_ADDRESS = "0x_ONCHAIN_NFT_CONTRACT_ADDRESS"; // bonus nft smart contract address
 		const FS42_ADDRESS     = "0x_FS42_CONTRACT_ADDRESS"; // FS42 token smart contract address which is used to verify the minter has tokens
 
 		// ethers.js readable ABI (Application Binary Interface) that encodes the calls to smart contracts methods
@@ -295,16 +300,28 @@
 			"function balanceOf(address) view returns (uint256)"
 		];
 
-		const btn		= document.getElementById("mintBtn");
-		const status	= document.getElementById("walletStatus");
-		const feedback	= document.getElementById("feedback");
+		let provider, signer;
 
-		let provider, signer, nftContract;
+		const card1 = {
+			btn:      document.getElementById("mintBtn1"),
+			status:   document.getElementById("walletStatus1"),
+			feedback: document.getElementById("feedback1"),
+			address:  CONTRACT_ADDRESS,
+			gated:    true
+		};
 
-		async function connectWallet() {
+		const card2 = {
+			btn:      document.getElementById("mintBtn2"),
+			status:   document.getElementById("walletStatus2"),
+			feedback: document.getElementById("feedback2"),
+			address:  ONCHAIN_CONTRACT_ADDRESS,
+			gated:    false
+		};
+
+		async function connectWallet(card) {
 
 			if (!window.ethereum) {
-				showFeedback("Install MetaMask to continue", "error");
+				showFeedback(card, "Install MetaMask to continue", "error");
 				return ;
 			}
 
@@ -313,56 +330,61 @@
 				signer = await provider.getSigner();
 				const addr = await signer.getAddress();
 
-				status.textContent = addr;
-				status.classList.add("connected");
+				card.status.textContent = addr;
+				card.status.classList.add("connected");
 
-				btn.textContent	= "Mint";
-				btn.disabled	= false;
-				btn.onclick		= mint;
+				card.btn.textContent	= "Mint";
+				card.btn.disabled	= false;
+				card.btn.onclick		= () => mint(card);
 			} catch (e) {
-				showFeedback("Connection refused", "error");
+				showFeedback(card, "Connection refused", "error");
 			}
 		}
 
-		async function mint() {
+		async function mint(card) {
 
-			btn.disabled = true;
-			showFeedback("Checking FS42 balance…", "");
+			card.btn.disabled = true;
 
 			try {
-				// Check FS42 ownership
-				const fs42	= new ethers.Contract(FS42_ADDRESS, FS42_ABI, provider);
-				const bal	= await fs42.balanceOf(await signer.getAddress()); // calls balanceOf on the FS42 token for the connected user that wants to mint
+				if (card.gated) {
+					showFeedback(card, "Checking FS42 balance…", "");
 
-				if (bal === 0n) {
-					showFeedback("You need FS42 tokens to mint", "error");
-					btn.disabled = false;
-					return;
+					// Check FS42 ownership
+					const fs42	= new ethers.Contract(FS42_ADDRESS, FS42_ABI, provider);
+					const bal	= await fs42.balanceOf(await signer.getAddress()); // calls balanceOf on the FS42 token for the connected user that wants to mint
+
+					if (bal === 0n) {
+						showFeedback(card, "You need FS42 tokens to mint", "error");
+						card.btn.disabled = false;
+						return;
+					}
 				}
 
-				showFeedback("Confirm transaction in MetaMask…", "");
+				showFeedback(card, "Confirm transaction in MetaMask…", "");
 
-				nftContract = new ethers.Contract(CONTRACT_ADDRESS, NFT_ABI, signer);
+				const nftContract = new ethers.Contract(card.address, NFT_ABI, signer);
 				const tx = await nftContract.mint();
 
-				showFeedback("Transaction sent — waiting…", "");
+				showFeedback(card, "Transaction sent — waiting…", "");
 				await tx.wait();
 
-				showFeedback("Minted successfully!", "success");
+				showFeedback(card, "Minted successfully!", "success");
 			} catch (e) {
 				const msg = e.reason || e.message || "Transaction failed";
-				showFeedback(msg.substring(0, 80), "error");
+				showFeedback(card, msg.substring(0, 80), "error");
 			}
-			btn.disabled = false;
+			card.btn.disabled = false;
 		}
 
-		function showFeedback(msg, type) {
-			feedback.textContent = msg;
-			feedback.className   = "feedback" + (type ? " " + type : "");
+		function showFeedback(card, msg, type) {
+			card.feedback.textContent = msg;
+			card.feedback.className   = "feedback" + (type ? " " + type : "");
 		}
 
-		btn.onclick = connectWallet;
-		btn.disabled = false;
+		card1.btn.onclick = () => connectWallet(card1);
+		card2.btn.onclick = () => connectWallet(card2);
+		card1.btn.disabled = false;
+		card2.btn.disabled = false;
 	</script>
 </body>
 </html>
