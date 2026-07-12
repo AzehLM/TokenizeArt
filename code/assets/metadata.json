@@ -1,0 +1,38 @@
+{
+	"name": "42SocietyArt",
+	"description": "42SocietyArt NFT Collection on Sepolia Testnet",
+	"image": "ipfs://bafybeieibtmy3tq56zwkuajbgemseigqc72kj4cjuv3rrpx5jo2toowj6q",
+	"attributes": [
+		{
+			"trait_type": "Artist",
+			"value": "gueberso"
+		},
+		{
+			"trait_type": "Reference",
+			"value": "Three-Body Problem" },
+		{
+			"trait_type": "Reference",
+			"value": "Mr. Robot"
+		},
+		{
+			"trait_type": "Setting",
+			"value": "Hong Kong"
+		},
+		{
+			"trait_type": "Element",
+			"value": "Rooftop Observer"
+		},
+		{
+			"trait_type": "Mood",
+			"value": "Contempling"
+		},
+		{
+			"trait_type": "Element",
+			"value": "Skyline"
+		},
+		{
+			"trait_type": "Signal",
+			"value": "42"
+		}
+	]
+}
