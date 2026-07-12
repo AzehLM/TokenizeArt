@@ -92,12 +92,9 @@ Full technical documentation is available in the `documentation/` folder.
 
 Here is a list of documentation/articles I based my implementation on:
 - [OpenZeppelin ERC-721 contracts](https://docs.openzeppelin.com/contracts/5.x/erc721)
-- [ERC-721 Token Standard](https://ethereum.org/developers/docs/standards/tokens/erc-721/)
+- [ERC721 standard french short explaination](https://ethereum.org/fr/developers/docs/standards/tokens/erc-721/)
 - [EIP-721 specification](https://eips.ethereum.org/EIPS/eip-721)
 - [OpenZeppelin ERC721URIStorage](https://docs.openzeppelin.com/contracts/5.x/api/token/erc721#ERC721URIStorage)
 - [IPFS documentation](https://docs.ipfs.tech/)
-- [Pinata IPFS pinning](https://docs.pinata.cloud/)
-- [Sepolia resources](https://ethereum.org/developers/docs/networks/#sepolia)
+- [Pinata IPFS pinning (Remix)](https://docs.pinata.cloud/frameworks/remix)
 - [Write and deploy NFT](https://ethereum.org/developers/tutorials/how-to-write-and-deploy-an-nft/)
-- [ERC721 standard french short explaination](https://ethereum.org/fr/developers/docs/standards/tokens/erc-721/)
-- [ERC721 Final Standard](https://eips.ethereum.org/EIPS/eip-721)
