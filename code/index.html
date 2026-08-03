@@ -249,7 +249,7 @@
 
 	<main>
 		<div class="hero">
-			<h1>42Society<span>GenArt</span></h1>
+			<h1>42Society<span>Art</span></h1>
 			<p class="subtitle">ERC-721 · Sepolia Testnet</p>
 		</div>
 
@@ -281,7 +281,7 @@
 
 		<footer>
 			<p>42SocietyArt · <a href="https://sepolia.etherscan.io/address/0xA6e1E1fD9da9c33249DB466410E69023B48A0F81" id="etherscanLink" target="_blank">View on Etherscan</a></p>
-			<p>42SocietyArtOnChain · <a href="https://sepolia.etherscan.io/address/0xA6e1E1fD9da9c33249DB466410E69023B48A0F81" id="etherscanLink" target="_blank">View on Etherscan</a></p>
+			<p>42SocietyArtOnChain · <a href="https://sepolia.etherscan.io/address/0x552b1726694e330f3f249DF598018DbDf5F1CB80" id="etherscanLink" target="_blank">View on Etherscan</a></p>
 		</footer>
 	</main>
 
@@ -366,7 +366,7 @@
 				const nftContract = new ethers.Contract(card.address, NFT_ABI, signer);
 				const tx = await nftContract.mint();
 
-				showFeedback(card, "Transaction sent — waiting…", "");
+				showFeedback(card, "Transaction sent - waiting…", "");
 				await tx.wait();
 
 				showFeedback(card, "Minted successfully!", "success");
