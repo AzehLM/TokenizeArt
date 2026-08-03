@@ -34,7 +34,7 @@ To interact with the 42SocietyArt NFTs you need:
 
 The project consists of two independent ERC-721 contracts.
 
-**Contract 1 - IPFS (mandatory)**: Built with `ERC721URIStorage` and `Ownable` from OpenZeppelin v5. The NFT image is a cyberpunk Hong Kong skyline with "42" visible, stored on IPFS via Pinata. The metadata JSON is also on IPFS. Minting requires FS42 token ownership, verified via a read-only `balanceOf` call to the FS42 contract using a minimal `IERC20Balance` interface. The FS42 address is set as `immutable` at deployment and cannot be changed afterward.
+**Contract 1 - IPFS (mandatory)**: Built with `ERC721URIStorage` and `Ownable` from OpenZeppelin v5. The NFT image is a cyberpunk Hong Kong skyline with "42" visible, stored on IPFS via Pinata. The metadata JSON is also on IPFS. Minting requires FS42 token ownership, verified via a read-only `balanceOf` call to the FS42 contract using a minimal `IERC20Balance` interface. The FS42 address is set as `immutable` at deployment and therefor cannot be changed afterward.
 
 **Contract 2 - On-chain SVG (bonus)**: Built with `ERC721` and `Ownable` from OpenZeppelin v5. The NFT image is an SVG stored directly in the contract bytecode as a `string constant`. The `tokenURI()` function is overridden to build the metadata JSON on the fly, embedding the SVG as a base64-encoded `data:` URI. No external storage dependency. Minting is open to anyone, no FS42 requirement.
 
