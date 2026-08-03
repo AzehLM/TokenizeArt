@@ -55,7 +55,7 @@ The mandatory and bonus parts are implemented as two independent contracts rathe
 
 ### Image storage
 
-- **Mandatory**: image and metadata JSON pinned on IPFS via Pinata. `tokenURI()` returns `ipfs://` CIDs resolved by wallets and explorers through their own IPFS gateways. You can respectively find the [image](https://bafybeieibtmy3tq56zwkuajbgemseigqc72kj4cjuv3rrpx5jo2toowj6q.ipfs.inbrowser.link/) and its [metadata](https://bafkreigqppjjr2oi75t4dj2cun3fk3rimr4h756ylo5bmksvdgckhst3a4.ipfs.inbrowser.link/) here on pinned on IPFS
+- **Mandatory**: image and metadata JSON pinned on IPFS via Pinata. `tokenURI()` returns `ipfs://` CIDs resolved by wallets and explorers through their own IPFS gateways. You can respectively find the [image](https://bafybeieibtmy3tq56zwkuajbgemseigqc72kj4cjuv3rrpx5jo2toowj6q.ipfs.inbrowser.link/) and its [metadata](https://bafkreigqppjjr2oi75t4dj2cun3fk3rimr4h756ylo5bmksvdgckhst3a4.ipfs.inbrowser.link/) here pinned on IPFS
 - **Bonus**: SVG image encoded as a base64 `data:` URI embedded directly in the JSON metadata, which is itself returned as a `data:` URI. No external dependency whatsoever - the image lives in the contract bytecode
 
 #### Few advantages of stocking on-chain metadata:
