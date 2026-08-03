@@ -1,17 +1,18 @@
 # Deployment
 
-This covers how to deploy the 42SocietyArt (F42A) NFT contracts on the Ethereum Sepolia testnet using Remix IDE and MetaMask.
+This covers how to deploy the 42SocietyArt (F42A) and 42SocietyArtOnChain NFT contracts on the Ethereum Sepolia testnet using Remix IDE and MetaMask.
 
 ## Deployed Contracts
 
-| Property         | Value                                                         |
-| ---------------- | ------------------------------------------------------------- |
-| Network          | Ethereum Sepolia Testnet (Chain ID: 11155111)                 |
-| IPFS contract    | `0xA6e1E1fD9da9c33249Db466410E69023B48A0F81`                  |
-| On-chain contract| `0x552b1726694e330f3f249DF598018DbDf5F1CB80`                  |
-| FS42 token       | `0xc033d60d6c2f4cd561c4f77019cf2790f4e825ab`                  |
-| Tickers          | F42A / F42AOC                                                 |
-| Etherscan (IPFS) | https://sepolia.etherscan.io/address/0xA6e1E1fD9da9c33249Db466410E69023B48A0F81 |
+| Property                | Value                                                         |
+| ----------------------- | ------------------------------------------------------------- |
+| **Network**             | Ethereum Sepolia Testnet (Chain ID: 11155111)                 |
+| **IPFS contract**       | `0xA6e1E1fD9da9c33249Db466410E69023B48A0F81`                  |
+| **On-chain contract**   | `0x552b1726694e330f3f249DF598018DbDf5F1CB80`                  |
+| **FS42 token**          | `0xc033d60d6c2f4cd561c4f77019cf2790f4e825ab`                  |
+| **Tickers**             | F42A / F42AOC                                                 |
+| **Etherscan (IPFS)**    | https://sepolia.etherscan.io/address/0xA6e1E1fD9da9c33249Db466410E69023B48A0F81 |
+| **Etherscan (OnChain)** | https://sepolia.etherscan.io/address/0x552b1726694e330f3f249DF598018DbDf5F1CB80 |
 
 ---
 
@@ -19,8 +20,7 @@ This covers how to deploy the 42SocietyArt (F42A) NFT contracts on the Ethereum 
 
 **MetaMask**: Install the browser extension from [metamask.io](https://metamask.io). Switch to the Sepolia testnet.
 
-**Sepolia ETH**: You need a small amount of test ETH to pay for deployment gas. Free faucets:
-- Google Cloud Web3 faucet: https://cloud.google.com/application/web3/faucet/ethereum/sepolia
+**Sepolia ETH**: You need a small amount of test ETH to pay for deployment gas: [free Google Cloud Web3 faucet](https://cloud.google.com/application/web3/faucet/ethereum/sepolia)
 
 **FS42 contract address**: The IPFS contract requires the FS42 token address as a constructor parameter. The FS42 token from Tokenizer must already be deployed on Sepolia.
 
@@ -81,7 +81,7 @@ Click **Deploy** and confirm in MetaMask.
 
 ### 7. Note the contract addresses
 
-Once the transactions are confirmed, the deployed contracts appear in Remix under "Deployed Contracts". Copy both addresses for use in the mint website (if updates is required. The mint website is hosted as a pages.dev from cloudflare and accessible from the [following ling](https://tokenizeart.ostrom.cloud/)).
+Once the transactions are confirmed, the deployed contracts appear in Remix under "Deployed Contracts". Copy both addresses for use in the mint website (if updates is required. The mint website is hosted as a pages.dev from cloudflare and accessible from the [following link](https://tokenizeart.ostrom.cloud/)).
 
 ## Etherscan Verification
 
@@ -89,7 +89,7 @@ Verifying the source code on Etherscan makes the contract publicly readable and 
 
 1. In Remix, right-click on the contract file and select **Flatten**
 2. Remix generates a flattened file with all OpenZeppelin imports inlined
-3. Go to `https://sepolia.etherscan.io/address/<CONTRACT_ADDRESS>` (IPFS/mandatory contract and/or On-Chain/contract)
+3. Go to `https://sepolia.etherscan.io/address/<CONTRACT_ADDRESS>` (IPFS/mandatory contract and/or on-chain contract)
 4. Click the **Contract** tab, then **Verify and Publish**
 5. Fill in the form:
    - Contract address: auto-filled
