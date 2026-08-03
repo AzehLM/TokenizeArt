@@ -1,28 +1,4 @@
 # TokenizeArt
-Build my own NFT - another Web3 related exercise
-
-
-Documentation
-
-An ERC721 compliant contract must implement ERC165 interfaces (need to read more on that)
-
-## NOTES:
-
-### Avantages de stocker les metadata On-Chain:
-- **Immutability**: Une fois que c'est stocké sur une blockain, les données peuvent pas etre modifiés ou supprimés. C'est un enregistrement pernanant et inviolable des détails de l'asset.
-- **Transparency**: Les donnés on-chain sont accessible publiquement, n'importe qui peut voir et vérifier les données d'un NFT.
-- **Verifiable Authenticity**: L'origine et l'historique des NFTs peut etre facilement tracké, réduisant le risque de contrefacons
-- **Traceability**: Ces metadonnées incluent des details critiques tel que la date de création, l'historique de possession, l'historique des transactions...
-- **Decentralized storage**: Les metadonnées on-chain sont distribué a travers le reseau blockchain, permettant de résister a la censure et aux pertes de données.
-- **Smart Contract Integration**: Puisque les metadata sont on-chain, on peut intéragir entre différents smart contract avec, permattant l'automatisation d'actions baser sur la distribution des assets (evolution des NFTs, mechaniques in-game si c'est dans un jeu, etc.)
-
-
-
-CID IMG mandatory: bafybeieibtmy3tq56zwkuajbgemseigqc72kj4cjuv3rrpx5jo2toowj6q
-CID metadata mandatory: bafkreigqppjjr2oi75t4dj2cun3fk3rimr4h756ylo5bmksvdgckhst3a4
-
-
-# TokenizeArt
 
 Build my own NFT - a Web3 related exercise
 
@@ -79,12 +55,21 @@ The mandatory and bonus parts are implemented as two independent contracts rathe
 
 ### Image storage
 
-- **Mandatory**: image and metadata JSON pinned on IPFS via Pinata. `tokenURI()` returns `ipfs://` CIDs resolved by wallets and explorers through their own IPFS gateways
+- **Mandatory**: image and metadata JSON pinned on IPFS via Pinata. `tokenURI()` returns `ipfs://` CIDs resolved by wallets and explorers through their own IPFS gateways. You can respectively find the [image](https://bafybeieibtmy3tq56zwkuajbgemseigqc72kj4cjuv3rrpx5jo2toowj6q.ipfs.inbrowser.link/) and its [metadata](https://bafkreigqppjjr2oi75t4dj2cun3fk3rimr4h756ylo5bmksvdgckhst3a4.ipfs.inbrowser.link/) here on pinned on IPFS
 - **Bonus**: SVG image encoded as a base64 `data:` URI embedded directly in the JSON metadata, which is itself returned as a `data:` URI. No external dependency whatsoever - the image lives in the contract bytecode
+
+#### Few advantages of stocking on-chain metadata:
+
+- **Immutability**: Once its on the blockchain, data cannot be modified of suppressed. It becomes a permanent and inviolable record of assets informations
+- **Transparency**: The on-chain data are publicly accessible, anyone can see and verify a NFT data
+- **Verifiable Authenticity**: The origin and history of the NFT can easily be trackable, reducting risks of counterfeit
+- **Traceability**: Metadata includes critical details such as creation date, ownership history, transaction history, etc.
+- **Decentralized storage**: Metadata on-chain are distributed across blockchain network, reducing censorship and data loss
+- **Smart Contract Integration**: Since the metadata are on-chain, we can interact between different smart contract with them. It allows automation actions based on the asset distribution (NFTs evolution, in-game mechanics, etc.)
 
 ### Mint website
 
-A minimal static website allows minting from both contracts with a graphical interface. Built with vanilla HTML/CSS/JS and ethers.js, it reuses the monospace glassmorphism aesthetic from the webserv project.
+A minimal static website allows minting from both contracts with a graphical interface. Built with vanilla HTML/CSS/JS and ethers.js, it reuses the monospace glassmorphism aesthetic from my webserv project.
 
 ### Documentation - Resources
 
@@ -94,6 +79,7 @@ Here is a list of documentation/articles I based my implementation on:
 - [OpenZeppelin ERC-721 contracts](https://docs.openzeppelin.com/contracts/5.x/erc721)
 - [ERC721 standard french short explaination](https://ethereum.org/fr/developers/docs/standards/tokens/erc-721/)
 - [EIP-721 specification](https://eips.ethereum.org/EIPS/eip-721)
+- [EIP-165 specification (interfaces)](https://eips.ethereum.org/EIPS/eip-165)
 - [OpenZeppelin ERC721URIStorage](https://docs.openzeppelin.com/contracts/5.x/api/token/erc721#ERC721URIStorage)
 - [IPFS documentation](https://docs.ipfs.tech/)
 - [Pinata IPFS pinning (Remix)](https://docs.pinata.cloud/frameworks/remix)
