@@ -32,6 +32,15 @@ contract FortyTwoSocietyArt is ERC721URIStorage, Ownable, ERC721 {
 		fs42Token = IERC20Balance(_fs42Address);
 	}
 
+	/**
+	 * @notice Mints one NFT to the caller, gated by FS42 token ownership.
+	 * @dev Reverts if the caller holds no FS42 tokens, checked via a read-only balanceOf call
+	 * to the FS42 contract using the minimal IERC20Balance interface.
+	 * Uses _safeMint instead of _mint: if the recipient is a smart contract, it must implement
+	 * onERC721Received, otherwise the transaction reverts.
+	 * All tokens share the same IPFS metadata URI (METADATA_URI constant), set via _setTokenURI.
+	 * Emits a Transfer event from address(0) to the caller via _mint().
+	 */
 	function mint() external {
 
 		require(fs42Token.balanceOf(msg.sender) > 0, "Must hold FS42 tokens");
@@ -44,6 +53,13 @@ contract FortyTwoSocietyArt is ERC721URIStorage, Ownable, ERC721 {
 		_setTokenURI(tokenId, METADATA_URI);
 	}
 
+	/**
+	 * @notice Returns the total number of tokens minted so far.
+	 * @dev Not part of the ERC-721 standard. Exposes _tokenIdCounter which is incremented
+	 * on each mint and never decremented. Since token IDs start at 0 and are sequential,
+	 * totalSupply() also equals the next token ID to be minted.
+	 * @return The number of tokens that have been minted.
+	 */
 	function totalSupply() external view returns (uint256) {
 		return _tokenIdCounter;
 	}

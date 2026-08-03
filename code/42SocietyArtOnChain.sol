@@ -28,6 +28,12 @@ contract FortyTwoSocietyArtOnChain is ERC721, Ownable {
 
 	constructor() ERC721("42SocietyArtOnChain", "F42AOC") Ownable(msg.sender) {}
 
+	/**
+	 * @notice Mints one NFT to the caller, gated by FS42 token ownership.
+	 * @dev Uses _safeMint instead of _mint: if the recipient is a smart contract, it must implement
+	 * onERC721Received, otherwise the transaction reverts.
+	 * Emits a Transfer event from address(0) to the caller via _mint().
+	 */
 	function mint() external {
 		require(_tokenIdCounter < MAX_SUPPLY, "Max supply reached");
 
@@ -37,6 +43,15 @@ contract FortyTwoSocietyArtOnChain is ERC721, Ownable {
 		_safeMint(msg.sender, tokenId);
 	}
 
+	/**
+	 * @notice Returns the full metadata URI for a given token, generated entirely on-chain.
+	 * @dev Overrides ERC721's tokenURI(). Reverts via _requireOwned() if the token does not exist.
+	 * The SVG image stored as a string constant in bytecode is base64-encoded The JSON itself is then
+	 * base64-encoded and returned as a data:application/json;base64 URI. This makes the metadata
+	 * fully self-contained. Wallets and explorers decode the data: URI natively.
+	 * @param tokenId The ID of the token to query.
+	 * @return A data:application/json;base64 URI containing the full metadata and embedded SVG.
+	 */
 	function tokenURI(uint256 tokenId) public view override returns (string memory) {
 		_requireOwned(tokenId);
 
@@ -51,6 +66,13 @@ contract FortyTwoSocietyArtOnChain is ERC721, Ownable {
 		return string.concat("data:application/json;base64,", Base64.encode(bytes(json)));
 	}
 
+	/**
+	 * @notice Returns the total number of tokens minted so far.
+	 * @dev Not part of the ERC-721 standard. Exposes _tokenIdCounter which is incremented
+	 * on each mint and never decremented. Since token IDs start at 0 and are sequential,
+	 * totalSupply() also equals the next token ID to be minted.
+	 * @return The number of tokens that have been minted.
+	 */
 	function totalSupply() external view returns (uint256) {
 		return _tokenIdCounter;
 	}
